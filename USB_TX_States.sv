@@ -11,10 +11,9 @@ NOTEPAD
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_*/
 
-module usb_TX (
+module USB_TX_States (
     input logic clk, n_rst,
     input logic [3:0] TX_Packet,
-
     output logic Get_TX_Packet_Data, TX_Error, TX_Transfer_Active,
     output logic [7:0] byte_TX
 );
