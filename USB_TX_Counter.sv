@@ -1,6 +1,9 @@
 `timescale 1ns/10ps
 
-module USB_TX_Counter #(parameter SIZE = 4) (
+module USB_TX_Counter #(
+    parameter SIZE = 5,     // Counter Width
+    parameter INC_SIZE = 1 // Increment Size
+    ) (
     input logic clk, n_rst, clear, count_enable,
     input logic [(SIZE - 1):0] rollover_val,
     output logic [(SIZE - 1):0] count_out,
@@ -27,7 +30,7 @@ module USB_TX_Counter #(parameter SIZE = 4) (
             n_rollover_flag = 1'b0;
         end
         else if(count_enable) begin
-            n_count_out = count_out + 1;
+            n_count_out = count_out + INC_SIZE;
             if(n_count_out >= rollover_flag) begin
                 n_rollover_flag = 1'b1;
             end
