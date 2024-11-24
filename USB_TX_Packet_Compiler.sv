@@ -12,8 +12,10 @@ module USB_TX_Packet_Compiler(
 );
 
     logic [543:0] n_packet_TX;
+    logic packet_cnt_inc;
     logic packet_cnt_inc, data_cnt_inc;
     loigc [7:0] TX_Packet_Data_Buffer;
+
 
     always_ff @(posedge clk, negedge n_rst) begin
         if(!n_rst) begin
@@ -26,10 +28,41 @@ module USB_TX_Packet_Compiler(
         end
     end
 
-     USB_TX_Counter #(.SIZE(4)) (
-        .clk(clk), .n_rst(n_rst), .clear(clear), 
-        .count_enable(count_enable), .rollover_val(XXXX),
-        .count_out(XXXX), .rollover_flag(XXXX)
+    assign packet_cnt_inc = byte_ready || Get_TX_Packet_Data; // For byte load from states or byte load from buffer
+
+    PACKET_COUNTER (.INC_SIZE(8)) ( // Will increment by 8 for every byte added
+        .clk(clk), .n_rst(n_rst), .clear(1'b0), 
+        .count_enable(packet_cnt_inc), .rollover_val(10'd544),
+        .count_out(packet_counter_TX) // , .rollover_flag(XXXX)
     );
+
+    DATA_COUNTER (
+        .clk(clk), .n_rst(n_rst), .clear(1'b0), 
+        .count_enable(data_cnt_inc), .rollover_val(10'd544),
+        .count_out(data_counter_TX) // , .rollover_flag(XXXX)
+    );
+
+    always_comb begin
+        n_packet_TX = packet_TX;
+        Get_TX_Packet_Data = 1'b0;
+        packet_load_complete_TX = 1'b0;
+        if(byte_ready_TX) begin
+            n_packet_TX [(packet_counter_TX + 7) : (packet_counter_TX) ] = byte_TX;
+        end
+
+        if(c_state_TX == DATA_TX) begin
+            if(data_counter_TX < Buffer_Occupancy) begin
+                Get_TX_Packet_Data = 1'b1;
+                if(data_counter_TX) begin
+                    n_packet_TX [(packet_counter_TX + 7) : (packet_counter_TX) ] = TX_Packet_Data;
+                end
+            end
+
+            else begin
+                packet_load_complete_TX = 1'b1;
+            end
+        end
+    end
+
 
 endmodule
