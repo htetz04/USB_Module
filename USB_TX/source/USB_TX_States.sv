@@ -1,4 +1,4 @@
-`timescale 1ns/10ps
+`timescale 1ns / 10ps
 
 typedef enum logic [2:0] {
     IDLE_TX = 0, SYNC_TX = 1, PID_TX = 2, EOP_TX = 3,
@@ -15,19 +15,21 @@ module USB_TX_States(
     input logic clk, n_rst,
     input logic packet_load_complete_TX, complete_TX,
     input logic [3:0] TX_Packet,
-    output logic TX_Transfer_Active, TX_Error, byte_ready_TX,
-    output logic [2:0] c_state_TX,
-    output logic [7:0] byte_TX
+    output logic TX_Transfer_Active, TX_Error,
+    output logic [2:0] out_state_TX,
+    output logic [3:0] pID
 );
 
     state_TX c_state_TX, n_state_TX;
-    logic [1:0] n_pID, pID;
+    logic [3:0] n_pID;
+
+    assign out_state_TX = c_state_TX;
 
 
     always_ff @(posedge clk, negedge n_rst) begin
         if(!n_rst) begin
-            c_state_TX <= 3'b0;
-            pID <= 2'b0;
+            c_state_TX <= IDLE_TX;
+            pID <= 4'b0;
         end
         else begin
             c_state_TX <= n_state_TX;
@@ -69,7 +71,7 @@ module USB_TX_States(
                 end
 
                 else if(TX_Packet == 4'b0000) begin
-                    n_state_TX = c_state_TX;
+                    n_state_TX = IDLE_TX;
                 end
 
                 else begin
@@ -115,8 +117,6 @@ module USB_TX_States(
     always_comb begin
         TX_Transfer_Active = 1'b1;
         TX_Error = 1'b0;
-        byte_ready_TX = 1'b0;
-        byte_TX = 8'b0;
 
         case(c_state_TX)
             IDLE_TX: begin
@@ -127,22 +127,19 @@ module USB_TX_States(
                 TX_Error = 1'b1;
             end
 
-            SYNC_TX: begin
-                byte_read_TX = 1'b1;
-                byte_TX = 8'b00000001;
-            end
+            // SYNC_TX: begin
 
-            PID_TX: begin
-                byte_read_TX = 1'b1;
-                byte_TX = {4'b0, pID};
-            end
+            // end
+
+            // PID_TX: begin
+
+            // end
 
             // Nothing changes during DATA_TX
 
-            CRC_TX: begin
-                byte_read_TX = 1'b1;
-                byte_TX = 8'b11111111;
-            end
+            // CRC_TX: begin
+
+            // end
 
             // Nothing changes during EOP_TX
 
@@ -150,4 +147,5 @@ module USB_TX_States(
         endcase
     end
 
-endmodule
+    endmodule
+
