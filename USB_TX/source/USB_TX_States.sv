@@ -139,19 +139,6 @@ module USB_TX_States(
                 n_TX_Transfer_Active = 1'b1;
             end
 
-            // PID_TX: begin
-
-            // end
-
-            // Nothing changes during DATA_TX
-
-            // CRC_TX: begin
-
-            // end
-
-            // Nothing changes during EOP_TX
-
-
         endcase
     end
 

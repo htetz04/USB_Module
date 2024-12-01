@@ -30,9 +30,9 @@ ahb_usb_sat SAT (.clk(clk), .n_rst(n_rst), .hsel(hsel), .haddr(haddr), .htrans(h
 
 usb_rx RX (.clk(clk), .n_rst(n_rst), .dp_in(dp_in), .dm_in(dm_in), .flush(flush), .rx_packet(rx_packet), .rx_data_ready(rx_data_ready), .rx_transfer_active(rx_transfer_active), .rx_error(rx_error), .store_rx_packet_data(store_rx_packet_data), .rx_packet_data(rx_packet_data), .buffer_occupancy(buffer_occupancy));
 
-usb_tx TX (.clk(clk), .n_rst(n_rst), .dp_out(dp_out), .dm_out(dm_out), .buffer_occupancy(buffer_occupancy), .get_tx_packet_data(get_tx_packet_data), .tx_packet_data(tx_packet_data), .tx_packet(tx_packet), .tx_transfer_active(tx_transfer_active), .tx_error(tx_error));
+USB_TX TX (.clk(clk), .n_rst(n_rst), .dp_out(dp_out), .dm_out(dm_out), .buffer_occupancy(buffer_occupancy), .get_tx_packet_data(get_tx_packet_data), .tx_packet_data(tx_packet_data), .tx_packet(tx_packet), .tx_transfer_active(tx_transfer_active), .tx_error(tx_error));
 
-data_buffer DB (.clk(clk), .n_rst(n_rst), .buffer_occupancy(buffer_occupancy), .flush(flush), .store_rx_packet_data(store_rx_packet_data), .rx_packet_data(rx_packet_data), .get_tx_packet_data(get_tx_packet_data), .tx_packet_data(tx_packet_data), .clear(clear), .tx_data(tx_data), .store_tx_data(store_tx_data), .get_rx_data(get_rx_data), .rx_data(rx_data));
+USB_Buffer DB (.clk(clk), .n_rst(n_rst), .buffer_occupancy(buffer_occupancy), .flush(flush), .store_rx_packet_data(store_rx_packet_data), .rx_packet_data(rx_packet_data), .get_tx_packet_data(get_tx_packet_data), .tx_packet_data(tx_packet_data), .clear(clear), .tx_data(tx_data), .store_tx_data(store_tx_data), .get_rx_data(get_rx_data), .rx_data(rx_data));
 
 
 

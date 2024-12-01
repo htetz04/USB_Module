@@ -15,7 +15,7 @@ module USB_TX_Packet_Compiler(
     logic [543:0] n_packet_TX;
     logic [7:0] TX_Packet_Data_Buffer;
     logic packet_cnt_inc, data_cnt_inc;
-    logic flag_pack, flag_count; // Uneccessary Registers
+    logic flag_pack, flag_count;
     logic n_copy_signal, n_packet_load_complete_TX;
 
     always_ff @(posedge clk, negedge n_rst) begin
@@ -130,183 +130,11 @@ module USB_TX_Packet_Compiler(
                         8'd4: begin
                             n_packet_TX[55:48] = 8'b11111111;
                         end
-                    endcase
-                    
-                    
-                end
-                
+                    endcase     
+                end    
             end
         end 
-        
     end
-
-
 
 endmodule
 
-/*
-
-    logic [543:0] n_packet_TX;
-    logic packet_cnt_inc, data_cnt_inc;
-    logic [7:0] TX_Packet_Data_Buffer;
-    logic [7:0] data_counter_TX;
-
-    logic flag_pack, flag_count;
-
-
-    always_ff @(posedge clk, negedge n_rst) begin
-        if(!n_rst) begin
-            packet_TX <= 544'b0;
-            TX_Packet_Data_Buffer <= 8'b0;
-        end
-        else begin
-            packet_TX <= n_packet_TX;
-            TX_Packet_Data_Buffer <= TX_Packet_Data;
-        end
-    end
-
-    
-    USB_TX_Counter #(.SIZE(10), .INC_SIZE(8)
-    )
-    PACKET_COUNTER( // Will increment by 8 for every byte added
-        .clk(clk), .n_rst(n_rst), .clear(1'b0), 
-        .count_enable(packet_cnt_inc), .rollover_val(10'd544),
-        .count_out(packet_counter_TX), .rollover_flag(flag_pack)
-    );
-
-    USB_TX_Counter #(.SIZE(8)
-    )DATA_COUNTER(
-        .clk(clk), .n_rst(n_rst), .clear(1'b0), 
-        .count_enable(data_cnt_inc), .rollover_val(8'd64),
-        .count_out(data_counter_TX), .rollover_flag(flag_count)
-    );
-
-    always_comb begin
-        n_packet_TX = packet_TX;
-        Get_TX_Packet_Data = 1'b0;
-        packet_load_complete_TX = 1'b0;
-        data_cnt_inc = 1'b0;
-        packet_cnt_inc = 1'b0;
-
-        if(Buffer_Occupancy == 7'b0) begin
-            packet_load_complete_TX = 1'b1;
-        end
-        
-        if(c_state_TX == 3'd1) begin // SYNC_TX
-            n_packet_TX [7:0] = 8'b00000001;
-            packet_cnt_inc = 1'b1;
-        end
-        else if(c_state_TX == 3'd2) begin // PID_TX
-            n_packet_TX [15:8] = {4'b0, pID};
-            packet_cnt_inc = 1'b1;
-        end
-        
-
-        // DO SOMETHING FOR CRC LATER :(
-        else if(c_state_TX == 3'd5) begin // CRC_TX
-            n_packet_TX[543:536] = 8'b11111111;
-        end
-
-        else if(c_state_TX == 3'd4) begin // DATA
-            if(Buffer_Occupancy != 7'b0) begin
-                if(data_counter_TX == 8'd0) begin
-                end
-                else if(data_counter_TX == 8'd1) begin
-                    n_packet_TX[23:16] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd2) begin
-                    n_packet_TX[31:24] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd3) begin
-                    n_packet_TX[39:32] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd4) begin
-                    n_packet_TX[47:40] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd5) begin
-                    n_packet_TX[55:48] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd6) begin
-                    n_packet_TX[63:56] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd7) begin
-                    n_packet_TX[71:64] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd8) begin
-                    n_packet_TX[79:72] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd9) begin
-                    n_packet_TX[87:80] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd10) begin
-                    n_packet_TX[95:88] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd11) begin
-                    n_packet_TX[103:96] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd12) begin
-                    n_packet_TX[111:104] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd13) begin
-                    n_packet_TX[119:112] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd14) begin
-                    n_packet_TX[127:120] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd15) begin
-                    n_packet_TX[135:128] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd16) begin
-                    n_packet_TX[143:136] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd17) begin
-                    n_packet_TX[151:144] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd18) begin
-                    n_packet_TX[159:152] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd19) begin
-                    n_packet_TX[167:160] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd20) begin
-                    n_packet_TX[175:168] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd21) begin
-                    n_packet_TX[183:176] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd22) begin
-                    n_packet_TX[191:184] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd23) begin
-                    n_packet_TX[199:192] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd24) begin
-                    n_packet_TX[207:200] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd25) begin
-                    n_packet_TX[215:208] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd26) begin
-                    n_packet_TX[223:216] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd26) begin
-                    n_packet_TX[231:224] = TX_Packet_Data;
-                end
-                else if(data_counter_TX == 8'd27) begin
-                    n_packet_TX[239:232] = TX_Packet_Data;
-                end
-
-                Get_TX_Packet_Data = 1'b1;
-                data_cnt_inc = 1'b1;
-                packet_cnt_inc = 1'b1;
-            end
-            else begin
-                packet_load_complete_TX = 1'b1;
-            end
-
-        end
-    end
-
-
-endmodule
-*/
