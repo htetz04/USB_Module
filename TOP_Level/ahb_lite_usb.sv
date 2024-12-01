@@ -1,6 +1,6 @@
 `timescale 1ns / 10ps
 
-module ahb_usb_sat ( 
+module ahb_lite_usb ( 
    input logic clk,
    input logic n_rst,
    input logic hsel,

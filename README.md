@@ -9,8 +9,9 @@ All files for this project can be found in
     ~ mg ####/ ece337 / Project ( or whatever path you used )
 
 Source /
-    TOP_Level.sv - top level RTL code for entire design
-    USB_AHB.sv - ###
+    ahb_lite_usb.sv - top level RTL code for entire design
+    
+    ahb_usb_sat.sv - ###
     USB_RX.sv - ###
 
     USB_TX.sv - top level code for USB Transmitter
