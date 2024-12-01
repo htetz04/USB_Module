@@ -20,6 +20,8 @@ module tb_USB_TX_Packet_Compiler ();
     logic [9:0] packet_counter_TX;
     logic [543:0] packet_TX;
 
+    logic copy_signal;
+
     // clockgen
     always begin
         clk = 0;
@@ -58,7 +60,7 @@ module tb_USB_TX_Packet_Compiler ();
     USB_TX_Packet_Compiler DUT (
         .clk(clk), .n_rst(n_rst),
         .c_state_TX(c_state_TX), .Buffer_Occupancy(Buffer_Occupancy),
-        .TX_Packet_Data(TX_Packet_Data), .pID(pID),
+        .TX_Packet_Data(TX_Packet_Data), .pID(pID), .copy_signal(copy_signal),
         .Get_TX_Packet_Data(Get_TX_Packet_Data), .packet_load_complete_TX(packet_load_complete_TX),
         .packet_counter_TX(packet_counter_TX), .packet_TX(packet_TX)
     );
@@ -74,10 +76,26 @@ module tb_USB_TX_Packet_Compiler ();
 
         reset_dut;
 
-        compile_seq(3'd0, 7'b0, 8'b0, 4'b0); // IDLE
-        compile_seq(3'd1, 7'b0, 8'b0, 4'b0010); // SYNC
-        compile_seq(3'd2, 7'b0, 8'b0, 4'b0010); // SYNC
-        compile_seq(3'd1, 7'b0, 8'b0, 4'b0010); // SYNC
+        // compile_seq(3'd0, 7'b0, 8'b0, 4'b0011); // IDLE
+        // compile_seq(3'd1, 7'd4, 8'd0, 4'b0011); // SYNC
+        // compile_seq(3'd2, 7'd4, 8'b0, 4'b0011); // PID
+        // compile_seq(3'd4, 7'd4, 8'b00000000, 4'b0011); // DATA
+        // compile_seq(3'd4, 7'd3, 8'b11111111, 4'b0011); // DATA 1
+        // compile_seq(3'd4, 7'd2, 8'b10101010, 4'b0011); // DATA 2
+        // compile_seq(3'd4, 7'd1, 8'b10001000, 4'b0011); // DATA 3
+        // compile_seq(3'd4, 7'd0, 8'b01110111, 4'b0011); // DATA 4
+        // compile_seq(3'd5, 7'd0, 8'b0, 4'b0011); // Complete
+        // compile_seq(3'd3, 7'd0, 8'b0, 4'b0011); // Complete
+        // compile_seq(3'd3, 7'd0, 8'b0, 4'b0011); // Complete
+        // compile_seq(3'd3, 7'd0, 8'b0, 4'b0011); // Complete
+
+        compile_seq(3'd0, 7'b0, 8'b0, 4'b0010); // IDLE
+        compile_seq(3'd1, 7'd0, 8'd0, 4'b0010); // SYNC
+        compile_seq(3'd2, 7'd0, 8'b0, 4'b0010); // PID
+        compile_seq(3'd3, 7'd0, 8'b0, 4'b0010); // EOP
+        compile_seq(3'd3, 7'd0, 8'b0, 4'b0010); // Complete
+        compile_seq(3'd3, 7'd0, 8'b0, 4'b0010); // Complete
+        compile_seq(3'd3, 7'd0, 8'b0, 4'b0010); // Complete
 
 
         $finish;

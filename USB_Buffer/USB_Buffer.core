@@ -1,26 +1,26 @@
 CAPI=2:
-name: "mg086:ece337:USB_TX_Output_Clock:1.0.0"
+name: "mg086:ece337:USB_Buffer:1.0.0"
 description: ""
 
 filesets:
     rtl:
         files:
-            - "source/USB_TX_Output_Clock.sv"
+            - "source/USB_Buffer.sv"
         file_type: systemVerilogSource
         depend:
-              - "mg086:ece337:USB_TX_Counter:1.0.0"
+            - "mg086:ece337:USB_Buffer_Counter:1.0.0"
         #     - "fusesoc:core:name"
 
     synth:
         depend:
             - "ece337:tech:AMI_05_LIB"
-            - "mg086:ece337:USB_TX_Output_Clock_syn"
+            - "mg086:ece337:USB_Buffer_syn"
 
     tb:
         files:
-            - "testbench/tb_USB_TX_Output_Clock.sv"
-            - "waves/USB_TX_Output_Clock.do": { file_type: user }
-            - "waves/USB_TX_Output_Clock.gtkw": { file_type: user }
+            - "testbench/tb_USB_Buffer.sv"
+            - "waves/USB_Buffer.do": { file_type: user }
+            - "waves/USB_Buffer.gtkw": { file_type: user }
             # - "data/file.txt": { file_type: user }
         file_type: systemVerilogSource
 
@@ -32,21 +32,21 @@ targets:
     default: &default
         filesets:
             - rtl
-        toplevel: USB_TX_Output_Clock
+        toplevel: USB_Buffer
 
     sim: &sim
         <<: *default
         default_tool: verilator
         filesets_append:
             - tb
-        toplevel: tb_USB_TX_Output_Clock
+        toplevel: tb_USB_Buffer
         tools:
             modelsim:
                 vsim_options:
                     - -vopt
                     - -voptargs='+acc'
                     - -t ps
-                    - -do waves/USB_TX_Output_Clock.do
+                    - -do waves/USB_Buffer.do
                     - -onfinish stop
                     - -do "set PrefSource(OpenOnFinish) 0 ; set PrefMain(LinePrefix) \"\" ; set PrefMain(colorizeTranscript) 1"
                     - -coverage
@@ -79,7 +79,7 @@ targets:
         filesets_append:
             - synfiles
         default_tool: design_compiler
-        toplevel: USB_TX_Output_Clock
+        toplevel: USB_Buffer
         tools:
             design_compiler:
                 script_dir: "src/mg086_ece337_synfiles_0"

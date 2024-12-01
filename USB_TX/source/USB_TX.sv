@@ -1,6 +1,7 @@
 `timescale 1ns / 10ps
 
 module USB_TX(
+    input logic clk, n_rst,
     input logic [3:0] TX_Packet,
     input logic [6:0] Buffer_Occupancy,
     input logic [7:0] TX_Packet_Data,
@@ -18,6 +19,8 @@ module USB_TX(
 
     logic bit_en_TX;
 
+    logic copy_signal;
+
 USB_TX_States STATES(
     .clk(clk), .n_rst(n_rst),
     .packet_load_complete_TX(packet_load_complete_TX),
@@ -29,7 +32,7 @@ USB_TX_States STATES(
 USB_TX_Packet_Compiler COMPILE(
     .clk(clk), .n_rst(n_rst),
     .c_state_TX(out_state_TX), .pID(pID),
-    .Buffer_Occupancy(Buffer_Occupancy), .TX_Packet_Data(TX_Packet_Data),
+    .Buffer_Occupancy(Buffer_Occupancy), .TX_Packet_Data(TX_Packet_Data), .copy_signal(copy_signal),
     .Get_TX_Packet_Data(Get_TX_Packet_Data), .packet_load_complete_TX(packet_load_complete_TX),
     .packet_counter_TX(packet_counter_TX), .packet_TX(packet_TX)
 );
@@ -45,6 +48,7 @@ USB_TX_Packet_Loader LOAD(
     .bit_en_TX(bit_en_TX),
     .packet_load_complete_TX(packet_load_complete_TX),
     .packet_TX(packet_TX),
+    .copy_signal(copy_signal),
     .packet_counter(packet_counter),
     .complete_TX(complete_TX),
     .DP_OUT(DP_OUT), .DM_OUT(DM_OUT)

@@ -1,7 +1,7 @@
 `timescale 1ns / 10ps
 
 module USB_Buffer_Counter #(
-    parameter SIZE = 5,     // Counter Width
+    parameter SIZE = 7,     // Counter Width
     parameter INC_SIZE = 1 // Increment Size
     ) (
     input logic clk, n_rst, clear, countUP_enable, countDOWN_enable,

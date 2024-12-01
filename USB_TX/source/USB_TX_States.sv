@@ -22,6 +22,7 @@ module USB_TX_States(
 
     state_TX c_state_TX, n_state_TX;
     logic [3:0] n_pID;
+    logic n_TX_Error, n_TX_Transfer_Active;
 
     assign out_state_TX = c_state_TX;
 
@@ -30,10 +31,15 @@ module USB_TX_States(
         if(!n_rst) begin
             c_state_TX <= IDLE_TX;
             pID <= 4'b0;
+            TX_Error <= 1'b0;
+            TX_Transfer_Active <= 1'b0;
+
         end
         else begin
             c_state_TX <= n_state_TX;
             pID <= n_pID;
+            TX_Error <= n_TX_Error;
+            TX_Transfer_Active <= n_TX_Transfer_Active;
         end
     end
 
@@ -115,21 +121,23 @@ module USB_TX_States(
     end
 
     always_comb begin
-        TX_Transfer_Active = 1'b1;
-        TX_Error = 1'b0;
+        n_TX_Transfer_Active = TX_Transfer_Active;
+        n_TX_Error = TX_Error;
 
         case(c_state_TX)
             IDLE_TX: begin
-                TX_Transfer_Active = 1'b0;
+                n_TX_Transfer_Active = 1'b0;
             end
 
             ERROR_TX: begin
-                TX_Error = 1'b1;
+                n_TX_Error = 1'b1;
+                
             end
 
-            // SYNC_TX: begin
-
-            // end
+            SYNC_TX: begin
+                n_TX_Error = 1'b0;
+                n_TX_Transfer_Active = 1'b1;
+            end
 
             // PID_TX: begin
 
