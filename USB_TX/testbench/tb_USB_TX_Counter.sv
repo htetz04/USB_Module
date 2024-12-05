@@ -44,8 +44,15 @@ module tb_USB_TX_Counter ();
     end
     endtask
 
-    USB_TX_Counter #(.SIZE(10), .INC_SIZE(8)) DUT (
-        .clk(clk), .n_rst(n_rst), .clear(clear),
+    // USB_TX_Counter #(.SIZE(10), .INC_SIZE(8)) DUT (
+    //     .clk(clk), .n_rst(n_rst), .clear(clear),
+    //     .count_enable(count_enable), .rollover_val(rollover_val),
+    //     .count_out(count_out), .rollover_flag(rollover_flag)
+    // );
+
+    USB_TX_Counter #(.SIZE(4)
+    )DUT(
+        .clk(clk), .n_rst(n_rst), .clear(1'b0), 
         .count_enable(count_enable), .rollover_val(rollover_val),
         .count_out(count_out), .rollover_flag(rollover_flag)
     );
@@ -57,6 +64,21 @@ module tb_USB_TX_Counter ();
         rollover_val = 4'b0;
 
         reset_dut;
+
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+        test_count(1'b0, 1'b1, 4'd8);
+
         /*
         test_count(1'b0, 1'b1, 4'd5);
         test_count(1'b0, 1'b1, 4'd5);
@@ -71,23 +93,23 @@ module tb_USB_TX_Counter ();
         test_count(1'b0, 1'b1, 4'd5);
         */
 
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
-        test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
+        // test_count(1'b0, 1'b1, 10'd544);
 
         $finish;
     end

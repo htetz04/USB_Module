@@ -1,60 +1,51 @@
 CAPI=2:
-name: "mg086:ece337:ahb_lite_usb:1.0.0"
+name: "mg086:ece337:usb_rx_counter:1.0.0"
 description: ""
 
 filesets:
     rtl:
         files:
-            - "source/ahb_lite_usb.sv"
+            - "source/usb_rx_counter.sv"
         file_type: systemVerilogSource
-        depend:
-            - "mg086:ece337:USB_TX:1.0.0"
-            - "mg086:ece337:USB_Buffer:1.0.0"
-            - "mg086:ece337:ahb_usb_sat:1.0.0"
-            - "mg086:ece337:usb_rx:1.0.0"
+        # depend:
         #     - "fusesoc:core:name"
 
     synth:
         depend:
             - "ece337:tech:AMI_05_LIB"
-            - "mg086:ece337:ahb_lite_usb_syn"
+            - "mg086:ece337:usb_rx_counter_syn"
 
     tb:
         files:
-            - "testbench/tb_ahb_lite_usb.sv"
-            - "waves/ahb_lite_usb.do": { file_type: user }
-            - "waves/ahb_lite_usb.gtkw": { file_type: user }
+            - "testbench/tb_usb_rx_counter.sv"
+            - "waves/usb_rx_counter.do": { file_type: user }
+            - "waves/usb_rx_counter.gtkw": { file_type: user }
             # - "data/file.txt": { file_type: user }
         file_type: systemVerilogSource
-
-        depend:
-            - "ece337:course-lib:ahb_lite_model_adv:1.0.0"
 
     synfiles:
         depend:
             - "mg086:ece337:synfiles"
 
-    
-
 targets:
     default: &default
         filesets:
             - rtl
-        toplevel: ahb_lite_usb
+        toplevel: usb_rx_counter
 
     sim: &sim
         <<: *default
         default_tool: verilator
         filesets_append:
             - tb
-        toplevel: tb_ahb_lite_usb
+        toplevel: tb_usb_rx_counter
         tools:
             modelsim:
                 vsim_options:
                     - -vopt
                     - -voptargs='+acc'
                     - -t ps
-                    - -do waves/ahb_lite_usb.do
+                    - -do waves/usb_rx_counter.do
                     - -onfinish stop
                     - -do "set PrefSource(OpenOnFinish) 0 ; set PrefMain(LinePrefix) \"\" ; set PrefMain(colorizeTranscript) 1"
                     - -coverage
@@ -87,7 +78,7 @@ targets:
         filesets_append:
             - synfiles
         default_tool: design_compiler
-        toplevel: ahb_lite_usb
+        toplevel: usb_rx_counter
         tools:
             design_compiler:
                 script_dir: "src/mg086_ece337_synfiles_0"

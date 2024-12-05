@@ -251,9 +251,7 @@ module USB_Buffer(
                 7'd63: begin
                     n_DB[511:504] = new_byte;
                 end
-                7'd64: begin
-                    n_DB[519:512] = new_byte;
-                end
+                
             endcase
         end
         
@@ -275,7 +273,7 @@ module USB_Buffer(
 
     USB_Buffer_Counter BUFF_OCCU ( 
         .clk(clk), .n_rst(n_rst), .clear(flush_clear), 
-        .countUP_enable(queue_DB), .countDOWN_enable(pop_DB), .rollover_val(7'd64),
+        .countUP_enable((queue_DB) && (Buffer_Occupancy != 7'd64)), .countDOWN_enable((pop_DB) && (Buffer_Occupancy)), .rollover_val(7'd65),
         .count_out(Buffer_Occupancy), .rollover_flag(bo_flag)
     );
 

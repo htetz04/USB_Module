@@ -26,7 +26,8 @@ module ahb_usb_sat (
    output logic clear,
    output logic [3:0] tx_packet,
    input logic tx_transfer_active,
-   input logic tx_error
+   input logic tx_error,
+   output logic [31:0] dummy
 );
 
 logic [1:0] htrans_sync;
@@ -70,32 +71,34 @@ end
 //Status Register Block
 logic [31:0] status_reg;
 always_comb begin
-   status_reg = 0;
+   status_reg[31:10] = 0;
+   status_reg [7:5] = 0;
    status_reg[0] = rx_data_ready;
    status_reg[1] = rx_packet == IN;
    status_reg[2] = rx_packet == OUT;
    status_reg[3] = rx_packet == ACK;
    status_reg[4] = rx_packet == NACK;
    status_reg[8] = rx_transfer_active;
-   status_reg[9] = rx_transfer_active;
+   status_reg[9] = tx_transfer_active;
 end
 
 //Error Register Block
 logic [31:0] error_reg;
 always_comb begin
-   error_reg = 0;
+   error_reg[31:9] = 0;
+   error_reg[7:1] = 0;
    error_reg[0] = rx_error;
    error_reg[8] = tx_error;
 end
 
 //TX PACKET BLOCK
 logic [31:0] tx_packet_control_reg;
+logic n_pack_en, pack_en, pack_en1;
 
 always_comb begin
    tx_packet = IDLE;
-   if (tx_transfer_active == 0)
-       tx_packet = IDLE;
-   else if (tx_packet_control_reg == 1)
+    if (pack_en) begin
+    if ((tx_packet_control_reg == 1) && (buffer_occupancy != 0))
        tx_packet = DATA0;
    else if (tx_packet_control_reg == 2)
        tx_packet = ACK;
@@ -103,8 +106,23 @@ always_comb begin
        tx_packet = NACK;
    else if (tx_packet_control_reg == 4)
        tx_packet = STALL;
+    else if (tx_transfer_active == 0)
+       tx_packet = IDLE;
+    end
 
 end
+
+always_ff @(posedge clk, negedge n_rst) begin
+    if (!n_rst) begin
+        pack_en1 <= 0;
+        pack_en <= 1;
+    end
+    else begin
+        pack_en1 <= n_pack_en;
+        pack_en <= pack_en1;
+end
+end
+
 logic [3:0] cnt, n_cnt;
 logic thresp, hresp1, hresp2;
 //HRESP BLOCK
@@ -156,7 +174,9 @@ end
 
 
 //WRITE COMB BLOCK
-logic [31:0] n_data_buffer_reg, data_buffer_store, n_tx_store, tx_store, n_tx_packet_control_reg, n_flush_buffer_control_reg, flush_buffer_control_reg;
+// synthesis keep
+logic [31:0] n_data_buffer_reg, data_buffer_store, n_tx_packet_control_reg, n_flush_buffer_control_reg, flush_buffer_control_reg, data_buffer_reg;
+logic [3:0] n_tx_store, tx_store;
 always_comb begin
 
    n_data_buffer_reg = data_buffer_store;
@@ -164,6 +184,7 @@ always_comb begin
    n_tx_packet_control_reg = tx_packet_control_reg;
    n_flush_buffer_control_reg = flush_buffer_control_reg;
    n_tx_store = 0;
+   n_pack_en = 0;
          
 
    if (hsel && (htrans_sync == 2'b10)) begin
@@ -175,9 +196,13 @@ always_comb begin
                        n_data_buffer_reg = hwdata;
                        n_tx_store = 4'b1111;
                    end
-                   8'hC: n_tx_packet_control_reg = hwdata;
+                   8'hC: begin  
+                    n_tx_packet_control_reg = hwdata[7:0];
+                    n_pack_en = 1;
+                   end
+
                    
-                   8'hD: n_flush_buffer_control_reg = hwdata[7:0];
+                   8'hD: n_flush_buffer_control_reg = {24'b0, hwdata[7:0]};
                endcase
            end
            else if (hsize_sync == 1) begin
@@ -190,8 +215,11 @@ always_comb begin
                        n_tx_store = 4'b1100;
                        n_data_buffer_reg = {hwdata[31:16], 16'h0};
                    end
-                   8'hC: n_tx_packet_control_reg = hwdata[7:0];
-                   8'hD: n_flush_buffer_control_reg = hwdata[7:0];
+                   8'hC: begin  
+                    n_tx_packet_control_reg = hwdata[7:0];
+                    n_pack_en = 1;
+                   end
+                   8'hD: n_flush_buffer_control_reg = {24'b0, hwdata[7:0]};
                endcase
            end
            else if (hsize_sync == 0) begin
@@ -212,8 +240,11 @@ always_comb begin
                        n_tx_store = 4'b1000;
                        n_data_buffer_reg = {hwdata[31:24], 24'h0};
                    end
-                   8'hC: n_tx_packet_control_reg = hwdata[7:0];
-                   8'hD: n_flush_buffer_control_reg = hwdata[7:0];
+                   8'hC: begin  
+                    n_tx_packet_control_reg = hwdata[7:0];
+                    n_pack_en = 1;
+                   end
+                   8'hD: n_flush_buffer_control_reg = {24'b0, hwdata[7:0]};
                endcase
            end
        end
@@ -221,6 +252,8 @@ always_comb begin
 
    if (hsel_sync && tx_store != 0 && (cnt != 0))
        n_tx_store = tx_store;
+
+    
    
 end
 
@@ -268,15 +301,15 @@ always_ff @(posedge clk, negedge n_rst) begin
 end
 
 assign clear = (flush_buffer_control_reg == 1);
-logic [31:0] data_buffer_reg;
 
+logic [7:0] sync_tx_data;
 //TX BLOCK
 
 always_comb begin
    n_cnt = cnt;
    buffer_filled = 0;
    store_tx_data = 0;
-   tx_data = 0;
+   sync_tx_data = 0;
 
    if (cnt == 4) begin
        //tx_store = 0;
@@ -288,19 +321,19 @@ always_comb begin
        if (n_tx_store[cnt]) begin
            case (cnt)
                0: begin
-                   tx_data = n_data_buffer_reg[7:0];
+                   sync_tx_data = n_data_buffer_reg[7:0];
                    store_tx_data = 1;
                end
                1: begin
-                   tx_data = data_buffer_store[15:8];
+                   sync_tx_data = data_buffer_store[15:8];
                    store_tx_data = 1;
                end
                2: begin
-                   tx_data = data_buffer_store[23:16];
+                   sync_tx_data = data_buffer_store[23:16];
                    store_tx_data = 1;
                end
                3: begin
-                   tx_data = data_buffer_store[31:24];
+                   sync_tx_data = data_buffer_store[31:24];
                    store_tx_data = 1;
                end
            endcase
@@ -313,6 +346,15 @@ always_comb begin
    
 end
 
+assign tx_data = sync_tx_data;
+
+// always_ff @ (posedge clk, negedge n_rst) begin
+//    if (!n_rst)
+//        tx_data <= 0;
+//    else 
+//        tx_data <= sync_tx_data;
+// end
+
 always_ff @ (posedge clk, negedge n_rst) begin
    if (!n_rst)
        cnt <= 0;
@@ -320,11 +362,14 @@ always_ff @ (posedge clk, negedge n_rst) begin
        cnt <= n_cnt;
 end
 
-logic start_rx;
+
 
 
 //RX BLOCK
-logic [3:0] rx_cnt, n_rx_cnt;
+logic [31:0] n_hrdata;
+logic [2:0] rx_cnt, n_rx_cnt;
+logic [31:0] ndata_buffer_reg;
+assign dummy = ndata_buffer_reg;
 always_comb begin
    n_rx_cnt = rx_cnt;
    reg_filled = 0;
@@ -332,7 +377,8 @@ always_comb begin
 
 
    if (!hwrite && hsel && (htrans == 2'b10) && (haddr < 4'd4)) begin
-       //data_buffer_reg[7:0] = rx_data;
+       ndata_buffer_reg = data_buffer_reg;
+       $display(rx_data);
 
        case (rx_cnt)
             0: begin
@@ -341,40 +387,43 @@ always_comb begin
             end
 
            1: if (hsize > 0) begin
-               data_buffer_reg = {24'b0, rx_data};
+               ndata_buffer_reg = {24'b0, rx_data};
                n_rx_cnt += 1;
                get_rx_data = 1;
            end else begin
-               data_buffer_reg = {24'b0, rx_data};
+               ndata_buffer_reg = {24'b0, rx_data};
                reg_filled = 1;
                n_rx_cnt = 5;
-               start_rx = 0;
            end
 
            2: if (hsize > 1) begin
-               data_buffer_reg[15:8] = rx_data;
+               ndata_buffer_reg[15:8] = rx_data;
+               ndata_buffer_reg[7:0] = n_hrdata[7:0];
                n_rx_cnt += 1;
                get_rx_data = 1;
            end else begin
-               data_buffer_reg[15:8] = rx_data;
+               ndata_buffer_reg[15:8] = rx_data;
+               ndata_buffer_reg[7:0] = n_hrdata[7:0];
                reg_filled = 1;
                n_rx_cnt = 5;
-               start_rx = 0;
            end
 
            3:  begin
-               data_buffer_reg[23:16] = rx_data;
+               ndata_buffer_reg[23:16] = rx_data;
+               ndata_buffer_reg[15:0] = n_hrdata[15:0];
                n_rx_cnt += 1;
                get_rx_data = 1;
+               
            end
 
 
            4: begin
-               data_buffer_reg[31:24] = rx_data;
+               ndata_buffer_reg[31:24] = rx_data;
+                ndata_buffer_reg[23:0] = n_hrdata[23:0];
+
                reg_filled = 1;
                n_rx_cnt = 5;
                get_rx_data = 0;
-               start_rx = 0;
            end
            5: begin
                reg_filled = 1;
@@ -386,18 +435,21 @@ always_comb begin
            
        endcase
    end else
-       data_buffer_reg = 0;
+       ndata_buffer_reg = 0;
 end
 
 always_ff @ (posedge clk, negedge n_rst) begin
-   if (!n_rst)
+   if (!n_rst) begin
        rx_cnt <= 0;
-   else 
+       data_buffer_reg <= 32'hf;
+   end else begin
        rx_cnt <= n_rx_cnt;
+       data_buffer_reg <= ndata_buffer_reg;
+   end 
 end
 
 //READ BLOCK
-logic [31:0] n_hrdata;
+
 always_comb begin
    n_hrdata = hrdata;
    if (hsel && !hwrite && (htrans == 2'b10)) begin
@@ -453,4 +505,3 @@ always_ff @ (posedge clk, negedge n_rst) begin
 end
 
 endmodule
-

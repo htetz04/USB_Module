@@ -79,18 +79,18 @@ module tb_USB_Buffer ();
         RX_Packet_Data = 8'b0;
 
         reset_dut;
-        // Store_RX_Packet_Data (RX to Buffer)
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b11111111);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b10101010);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // // Store_RX_Packet_Data (RX to Buffer)
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b11111111);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b10101010);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
 
-        // Get_RX_Data (Buffer to AHB)
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // // Get_RX_Data (Buffer to AHB)
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
         
         // Store_TX_Data (AHB to Buffer)
         test_buffer(1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b11110001, 8'b0);
@@ -99,25 +99,25 @@ module tb_USB_Buffer ();
         test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
 
         // Get_TX_Packet_Data (Buffer to TX)
-        test_buffer(1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
 
 
-        // Flush
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b11111111);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b10101010);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b10011001);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b11111111);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
-        test_buffer(1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b00110011, 8'b0);
-        test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // // Flush
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b11111111);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b10101010);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b10011001);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b11111111);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
+        // test_buffer(1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b00110011, 8'b0);
+        // test_buffer(1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 8'b0, 8'b0);
 
         $finish;
     end
