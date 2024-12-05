@@ -1,0 +1,103 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : USB_TX_States
+Version: S-2021.06
+Date   : Sun Dec  1 15:42:21 2024
+****************************************
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+  Startpoint: c_state_TX_reg[1]
+              (rising edge-triggered flip-flop)
+  Endpoint: out_state_TX[1]
+            (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  c_state_TX_reg[1]/CLK (DFFSR)            0.00       0.00 r
+  c_state_TX_reg[1]/Q (DFFSR)              0.93       0.93 f
+  out_state_TX[1] (out)                    0.00       0.93 f
+  data arrival time                                   0.93
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
+ 
+****************************************
+Report : area
+Design : USB_TX_States
+Version: S-2021.06
+Date   : Sun Dec  1 15:42:21 2024
+****************************************
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+Number of ports:                           17
+Number of nets:                            76
+Number of cells:                           68
+Number of combinational cells:             50
+Number of sequential cells:                 9
+Number of macros/black boxes:               0
+Number of buf/inv:                         14
+Number of references:                      10
+
+Combinational area:              12150.000000
+Buf/Inv area:                     2016.000000
+Noncombinational area:           14256.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 26406.000000
+Total area:                 undefined
+1
+Loading db file '/home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -hier
+        -analysis_effort low
+Design : USB_TX_States
+Version: S-2021.06
+Date   : Sun Dec  1 15:42:21 2024
+****************************************
+
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+USB_TX_States                             1.194    3.414    8.081    4.608 100.0
+1

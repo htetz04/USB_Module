@@ -1,0 +1,111 @@
+Warning: Can't read link_library file 'your_library.db'. (UID-3)
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : USB_TX_Output_Clock
+Version: S-2021.06
+Date   : Sun Dec  1 15:43:25 2024
+****************************************
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+  Startpoint: OUTPCNT_B/rollover_flag_reg
+              (rising edge-triggered flip-flop)
+  Endpoint: bit_en_TX (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  OUTPCNT_B/rollover_flag_reg/CLK (DFFSR)                 0.00       0.00 r
+  OUTPCNT_B/rollover_flag_reg/Q (DFFSR)                   0.43       0.43 r
+  OUTPCNT_B/rollover_flag (USB_TX_Counter_SIZE4_1)        0.00       0.43 r
+  U23/Y (OR2X1)                                           0.23       0.66 r
+  U22/Y (NOR2X1)                                          0.16       0.82 f
+  U19/Y (INVX1)                                           0.16       0.97 r
+  bit_en_TX (out)                                         0.00       0.97 r
+  data arrival time                                                  0.97
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
+ 
+****************************************
+Report : area
+Design : USB_TX_Output_Clock
+Version: S-2021.06
+Date   : Sun Dec  1 15:43:25 2024
+****************************************
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+Number of ports:                           52
+Number of nets:                           216
+Number of cells:                          182
+Number of combinational cells:            140
+Number of sequential cells:                18
+Number of macros/black boxes:               0
+Number of buf/inv:                         51
+Number of references:                       9
+
+Combinational area:              31509.000000
+Buf/Inv area:                     7344.000000
+Noncombinational area:           28512.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 60021.000000
+Total area:                 undefined
+1
+Loading db file '/home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -hier
+        -analysis_effort low
+Design : USB_TX_Output_Clock
+Version: S-2021.06
+Date   : Sun Dec  1 15:43:25 2024
+****************************************
+
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+USB_TX_Output_Clock                       0.581    2.540   18.322    3.121 100.0
+  OUTPCNT_C (USB_TX_Counter_SIZE4_0)      0.000    0.512    4.993    0.512  16.4
+  OUTPCNT_B (USB_TX_Counter_SIZE4_1)      0.000    0.512    4.993    0.512  16.4
+  OUTPCNT_A (USB_TX_Counter_SIZE4_2)      0.129    0.659    4.993    0.788  25.2
+  OUTPCNT_SEL (USB_TX_Counter_SIZE2)      0.345    0.778    2.753    1.123  36.0
+1

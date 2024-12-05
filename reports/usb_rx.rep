@@ -1,0 +1,117 @@
+Warning: Can't read link_library file 'your_library.db'. (UID-3)
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : usb_rx
+Version: S-2021.06
+Date   : Thu Dec  5 12:13:43 2024
+****************************************
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+  Startpoint: fsm_state_reg[0]
+              (rising edge-triggered flip-flop)
+  Endpoint: rx_transfer_active
+            (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  fsm_state_reg[0]/CLK (DFFSR)             0.00       0.00 r
+  fsm_state_reg[0]/Q (DFFSR)               0.70       0.70 r
+  U769/Y (INVX1)                           0.51       1.21 f
+  U758/Y (NOR2X1)                          0.19       1.40 r
+  U748/Y (INVX1)                           0.26       1.67 f
+  U747/Y (OAI22X1)                         0.15       1.81 r
+  U746/Y (NAND2X1)                         0.19       2.00 f
+  U744/Y (NAND2X1)                         0.31       2.31 r
+  U642/Y (NOR2X1)                          0.17       2.48 f
+  U641/Y (NAND3X1)                         0.15       2.63 r
+  U640/Y (NOR2X1)                          0.44       3.07 f
+  U639/Y (NAND2X1)                         0.27       3.34 r
+  rx_transfer_active (out)                 0.00       3.34 r
+  data arrival time                                   3.34
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
+ 
+****************************************
+Report : area
+Design : usb_rx
+Version: S-2021.06
+Date   : Thu Dec  5 12:13:43 2024
+****************************************
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+Number of ports:                           58
+Number of nets:                           609
+Number of cells:                          573
+Number of combinational cells:            389
+Number of sequential cells:                90
+Number of macros/black boxes:               0
+Number of buf/inv:                        118
+Number of references:                      16
+
+Combinational area:             102798.000000
+Buf/Inv area:                    17136.000000
+Noncombinational area:          142560.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                245358.000000
+Total area:                 undefined
+1
+Loading db file '/home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -hier
+        -analysis_effort low
+Design : usb_rx
+Version: S-2021.06
+Date   : Thu Dec  5 12:13:44 2024
+****************************************
+
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+usb_rx                                    0.156   10.055   76.756   10.212 100.0
+  add_249 (usb_rx_DW01_inc_0_DW01_inc_1)
+                                          0.000    0.000    2.339 2.34e-06   0.0
+  DUT (usb_rx_counter)                 5.51e-03    0.724    6.463    0.729   7.1
+1

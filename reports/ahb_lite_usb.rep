@@ -1,0 +1,145 @@
+Warning: Can't read link_library file 'your_library.db'. (UID-3)
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : ahb_lite_usb
+Version: S-2021.06
+Date   : Thu Dec  5 12:56:12 2024
+****************************************
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+  Startpoint: SAT/cnt_reg[0]
+              (rising edge-triggered flip-flop)
+  Endpoint: hready (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  SAT/cnt_reg[0]/CLK (DFFSR)               0.00       0.00 r
+  SAT/cnt_reg[0]/Q (DFFSR)                 0.68       0.68 r
+  SAT/U731/Y (NOR2X1)                      0.86       1.54 f
+  SAT/U730/Y (AOI22X1)                     0.30       1.84 r
+  SAT/U729/Y (NAND2X1)                     0.08       1.93 f
+  SAT/U706/Y (INVX1)                       0.34       2.27 r
+  SAT/U705/Y (NOR2X1)                      0.49       2.76 f
+  SAT/U704/Y (OAI21X1)                     0.23       2.99 r
+  SAT/U703/Y (NAND2X1)                     0.21       3.20 f
+  SAT/U691/Y (INVX1)                       0.20       3.40 r
+  SAT/U690/Y (MUX2X1)                      0.24       3.63 f
+  SAT/U689/Y (NAND3X1)                     0.13       3.77 r
+  SAT/U688/Y (INVX1)                       0.05       3.82 f
+  SAT/hready (ahb_usb_sat)                 0.00       3.82 f
+  hready (out)                             0.00       3.82 f
+  data arrival time                                   3.82
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
+ 
+****************************************
+Report : area
+Design : ahb_lite_usb
+Version: S-2021.06
+Date   : Thu Dec  5 12:56:12 2024
+****************************************
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+Number of ports:                         1674
+Number of nets:                         15674
+Number of cells:                        14127
+Number of combinational cells:           9161
+Number of sequential cells:              2451
+Number of macros/black boxes:               0
+Number of buf/inv:                       2746
+Number of references:                       4
+
+Combinational area:            2271798.000000
+Buf/Inv area:                   435888.000000
+Noncombinational area:         3882384.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:               6154182.000000
+Total area:                 undefined
+1
+Loading db file '/home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -hier
+        -analysis_effort low
+Design : ahb_lite_usb
+Version: S-2021.06
+Date   : Thu Dec  5 12:56:13 2024
+****************************************
+
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+ahb_lite_usb                            195.208  427.154 1.95e+03  622.363 100.0
+  DB (USB_Buffer)                        47.857   99.568  411.454  147.426  23.7
+    BUFF_OCCU (USB_Buffer_Counter)        0.495    1.616   10.271    2.111   0.3
+      r94 (USB_Buffer_Counter_DW01_incdec_0)
+                                       2.90e-03 8.06e-03    2.216 1.10e-02   0.0
+  TX (USB_TX)                           125.936  292.527 1.35e+03  418.464  67.2
+    LOAD (USB_TX_Packet_Loader)          83.588  186.254  755.978  269.843  43.4
+      BYTE_COUNTER (USB_TX_Counter_SIZE4_0)
+                                          0.000    0.797    4.993    0.797   0.1
+    OUT_CLK (USB_TX_Output_Clock)         0.000    1.843   18.538    1.843   0.3
+      OUTPCNT_C (USB_TX_Counter_SIZE4_1)
+                                          0.000    0.512    4.993    0.512   0.1
+      OUTPCNT_B (USB_TX_Counter_SIZE4_2)
+                                          0.000    0.512    4.993    0.512   0.1
+      OUTPCNT_A (USB_TX_Counter_SIZE4_3)
+                                          0.000    0.512    4.993    0.512   0.1
+      OUTPCNT_SEL (USB_TX_Counter_SIZE2)
+                                          0.000    0.307    2.753    0.307   0.0
+    COMPILE (USB_TX_Packet_Compiler)     42.347  103.513  562.799  145.861  23.4
+      DATA_COUNTER (USB_TX_Counter_SIZE8)
+                                          0.526    1.817   10.952    2.342   0.4
+        add_38 (USB_TX_Counter_SIZE8_DW01_inc_0_DW01_inc_5)
+                                          0.000    0.000    1.807 1.81e-06   0.0
+      PACKET_COUNTER (USB_TX_Counter_SIZE10_INC_SIZE8)
+                                          0.000    1.552   10.527    1.552   0.2
+    STATES (USB_TX_States)                0.000    0.921    7.973    0.921   0.1
+  RX (usb_rx)                             4.876   10.537   77.176   15.413   2.5
+    add_249 (usb_rx_DW01_inc_0_DW01_inc_6)
+                                          0.000    0.000    2.339 2.34e-06   0.0
+    DUT (usb_rx_counter)               8.38e-03    0.728    6.463    0.736   0.1
+  SAT (ahb_usb_sat)                      16.539   24.519  115.922   41.058   6.6
+1

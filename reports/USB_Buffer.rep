@@ -1,0 +1,108 @@
+Warning: Can't read link_library file 'your_library.db'. (UID-3)
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : USB_Buffer
+Version: S-2021.06
+Date   : Wed Dec  4 19:48:32 2024
+****************************************
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+  Startpoint: BUFF_OCCU/count_out_reg[3]
+              (rising edge-triggered flip-flop)
+  Endpoint: Buffer_Occupancy[3]
+            (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  BUFF_OCCU/count_out_reg[3]/CLK (DFFSR)                  0.00       0.00 r
+  BUFF_OCCU/count_out_reg[3]/Q (DFFSR)                    1.03       1.03 f
+  BUFF_OCCU/count_out[3] (USB_Buffer_Counter)             0.00       1.03 f
+  Buffer_Occupancy[3] (out)                               0.00       1.03 f
+  data arrival time                                                  1.03
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
+ 
+****************************************
+Report : area
+Design : USB_Buffer
+Version: S-2021.06
+Date   : Wed Dec  4 19:48:32 2024
+****************************************
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+Number of ports:                           82
+Number of nets:                          2588
+Number of cells:                         2527
+Number of combinational cells:           1451
+Number of sequential cells:               536
+Number of macros/black boxes:               0
+Number of buf/inv:                         71
+Number of references:                      14
+
+Combinational area:             402516.000000
+Buf/Inv area:                    12312.000000
+Noncombinational area:          849024.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:               1251540.000000
+Total area:                 undefined
+1
+Loading db file '/home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -hier
+        -analysis_effort low
+Design : USB_Buffer
+Version: S-2021.06
+Date   : Wed Dec  4 19:48:32 2024
+****************************************
+
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+USB_Buffer                               71.820   79.155  407.356  150.976 100.0
+  BUFF_OCCU (USB_Buffer_Counter)          2.358    2.577   10.209    4.934   3.3
+    r94 (USB_Buffer_Counter_DW01_incdec_0)
+                                          0.364    0.981    2.216    1.345   0.9
+1

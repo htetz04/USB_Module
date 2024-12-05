@@ -11,7 +11,7 @@ All files for this project can be found in
 Source /
     ahb_lite_usb.sv - top level RTL code for entire design
     
-    ahb_usb_sat.sv - ###
+    ahb_usb_sat.sv - top level code for AHB Satellite
     usb_rx_counter.sv - clock divider for rx
     usb_rx.sv - all receiver related code aside from clock divider
 
@@ -40,4 +40,16 @@ Testbench /
     tb_USB_TX_Counter.sv    - testbench for USB TX Counter
 
 Reports /
-    synth.log - synthesis report file for top level
+    synth.log - synthesis report log file for overall
+    ahb_lite_usb.rep  - synthesis report file for AHB Lite USB
+    ahb_usb_sat.rep   - synthesis report file for AHB USB Satellite
+    USB_Buffer.rep    - synthesis report file for USB Buffer
+    USB_Buffer_Counter.rep    - synthesis report file for USB Buffer Counter
+    usb_rx.rep    - synthesis report file for USB RX
+    usb_rx_counter.rep    - synthesis report file for USB RX Counter
+    USB_TX.rep    - synthesis report file for USB TX 
+    USB_TX_States.rep -   synthesis report file for USB TX States
+    USB_TX_Packet_Compiler.rep    - synthesis report file for USB TX Packet Compiler
+    USB_TX_Packet_Loader.rep  - synthesis report file for USB TX Packet Loader
+    USB_TX_Output_Clock.rep   - synthesis report file for USB TX Output Clock
+    USB_TX_Counter.rep    - synthesis report file for USB TX Counter

@@ -1,0 +1,104 @@
+Warning: Can't read link_library file 'your_library.db'. (UID-3)
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : usb_rx_counter
+Version: S-2021.06
+Date   : Tue Dec  3 20:28:38 2024
+****************************************
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+  Startpoint: count_out_reg[0]
+              (rising edge-triggered flip-flop)
+  Endpoint: count_out[0]
+            (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  count_out_reg[0]/CLK (DFFSR)             0.00       0.00 r
+  count_out_reg[0]/Q (DFFSR)               0.70       0.70 f
+  count_out[0] (out)                       0.00       0.70 f
+  data arrival time                                   0.70
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
+ 
+****************************************
+Report : area
+Design : usb_rx_counter
+Version: S-2021.06
+Date   : Tue Dec  3 20:28:38 2024
+****************************************
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+Number of ports:                           10
+Number of nets:                            56
+Number of cells:                           52
+Number of combinational cells:             37
+Number of sequential cells:                 7
+Number of macros/black boxes:               0
+Number of buf/inv:                         10
+Number of references:                      12
+
+Combinational area:               9405.000000
+Buf/Inv area:                     1440.000000
+Noncombinational area:           11088.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                 20493.000000
+Total area:                 undefined
+1
+Loading db file '/home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -hier
+        -analysis_effort low
+Design : usb_rx_counter
+Version: S-2021.06
+Date   : Tue Dec  3 20:28:38 2024
+****************************************
+
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+usb_rx_counter                            0.787    1.441    6.463    2.229 100.0
+1

@@ -1,0 +1,127 @@
+Warning: Can't read link_library file 'your_library.db'. (UID-3)
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : USB_TX
+Version: S-2021.06
+Date   : Wed Dec  4 19:48:14 2024
+****************************************
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+  Startpoint: STATES/c_state_TX_reg[1]
+              (rising edge-triggered flip-flop)
+  Endpoint: Get_TX_Packet_Data
+            (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  STATES/c_state_TX_reg[1]/CLK (DFFSR)                    0.00       0.00 r
+  STATES/c_state_TX_reg[1]/Q (DFFSR)                      0.95       0.95 f
+  STATES/out_state_TX[1] (USB_TX_States)                  0.00       0.95 f
+  COMPILE/c_state_TX[1] (USB_TX_Packet_Compiler)          0.00       0.95 f
+  COMPILE/U4364/Y (NAND3X1)                               0.93       1.89 r
+  COMPILE/U4363/Y (INVX1)                                 0.40       2.28 f
+  COMPILE/U4362/Y (NAND2X1)                               0.22       2.50 r
+  COMPILE/U4351/Y (OAI21X1)                               0.05       2.55 f
+  COMPILE/Get_TX_Packet_Data (USB_TX_Packet_Compiler)     0.00       2.55 f
+  Get_TX_Packet_Data (out)                                0.00       2.55 f
+  data arrival time                                                  2.55
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
+ 
+****************************************
+Report : area
+Design : USB_TX
+Version: S-2021.06
+Date   : Wed Dec  4 19:48:14 2024
+****************************************
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+Number of ports:                         1293
+Number of nets:                         11284
+Number of cells:                        10044
+Number of combinational cells:           6612
+Number of sequential cells:              1690
+Number of macros/black boxes:               0
+Number of buf/inv:                       2305
+Number of references:                       4
+
+Combinational area:            1598220.000000
+Buf/Inv area:                   363168.000000
+Noncombinational area:         2676960.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:               4275180.000000
+Total area:                 undefined
+1
+Loading db file '/home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -hier
+        -analysis_effort low
+Design : USB_TX
+Version: S-2021.06
+Date   : Wed Dec  4 19:48:14 2024
+****************************************
+
+
+Library(s) Used:
+
+    osu05_stdcells (File: /home/ecegrid/a/ece337/summer24-refactor/tech/ami05/osu05_stdcells.db)
+
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+--------------------------------------------------------------------------------
+                                       Switch   Int      Leak     Total
+Hierarchy                              Power    Power    Power    Power    %
+--------------------------------------------------------------------------------
+USB_TX                                  130.450  298.784 1.35e+03  429.236 100.0
+  LOAD (USB_TX_Packet_Loader)            83.851  186.312  755.978  270.164  62.9
+    BYTE_COUNTER (USB_TX_Counter_SIZE4_0)
+                                       2.15e-03    0.798    4.993    0.800   0.2
+  OUT_CLK (USB_TX_Output_Clock)        2.73e-03    1.846   18.538    1.848   0.4
+    OUTPCNT_C (USB_TX_Counter_SIZE4_1)    0.000    0.512    4.993    0.512   0.1
+    OUTPCNT_B (USB_TX_Counter_SIZE4_2)    0.000    0.512    4.993    0.512   0.1
+    OUTPCNT_A (USB_TX_Counter_SIZE4_3) 2.49e-04    0.512    4.993    0.512   0.1
+    OUTPCNT_SEL (USB_TX_Counter_SIZE2) 1.47e-03    0.309    2.753    0.311   0.1
+  COMPILE (USB_TX_Packet_Compiler)       45.356  107.209  562.855  152.565  35.5
+    DATA_COUNTER (USB_TX_Counter_SIZE8)
+                                          0.526    1.817   10.952    2.343   0.5
+      add_38 (USB_TX_Counter_SIZE8_DW01_inc_0_DW01_inc_2)
+                                          0.000    0.000    1.807 1.81e-06   0.0
+    PACKET_COUNTER (USB_TX_Counter_SIZE10_INC_SIZE8)
+                                          0.104    1.633   10.527    1.737   0.4
+  STATES (USB_TX_States)                  1.241    3.419    8.081    4.660   1.1
+1
